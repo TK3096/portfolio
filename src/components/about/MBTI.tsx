@@ -15,7 +15,7 @@ export const MBTI: React.FC = () => {
 
   return (
     <div className='h-screen flex justify-center relative'>
-      <div ref={ref} className='absolute top-48'>
+      <div id='mbti' ref={ref} className='absolute top-48'>
         <h1
           className={cn(
             'text-5xl font-bold opacity-0 scale-[0.5] transition-all duration-500',
