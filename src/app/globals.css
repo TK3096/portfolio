@@ -37,3 +37,8 @@ body,
 :root {
   height: 100%;
 }
+
+::selection {
+  background: rgb(239 68 68);
+  color: #000;
+}
