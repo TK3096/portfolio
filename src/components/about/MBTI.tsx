@@ -9,9 +9,9 @@ export const MBTI: React.FC = () => {
   const ref = useRef(null)
   const isInView = useInView(ref)
 
-  useEffect(() => {
-    console.log(isInView)
-  }, [isInView])
+  // useEffect(() => {
+  //   console.log(isInView)
+  // }, [isInView])
 
   return (
     <div className='h-screen flex justify-center relative'>

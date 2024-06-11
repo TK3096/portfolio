@@ -1,10 +1,53 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import React, { useEffect, useRef } from 'react'
+import { motion, useInView, useAnimationControls } from 'framer-motion'
 
-import React from 'react'
+const descAnimation = {
+  hidden: {
+    opacity: 0,
+    y: 20,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.2,
+    },
+  },
+}
 
 export const Introduce: React.FC = () => {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { amount: 0.5, once: true })
+  const control = useAnimationControls()
+
+  const description =
+    "My name is Thanaphon (Tong) Keawjam. I am thai. I've been working in this line of work for 3 years (fulltime work). I try to learn new things to improve my skills and incress my passion to coding."
+
+  useEffect(() => {
+    let timmer: NodeJS.Timeout
+
+    const show = () => {
+      control.start('visible')
+
+      timmer = setInterval(async () => {
+        await control.start('hidden')
+        control.start('visible')
+      }, 10000)
+    }
+
+    if (isInView) {
+      show()
+    } else {
+      control.start('hidden')
+    }
+
+    return () => {
+      clearInterval(timmer)
+    }
+  }, [isInView, control])
+
   return (
     <div className='h-screen flex justify-center items-center'>
       <div className='w-[750px] space-y-3'>
@@ -28,23 +71,43 @@ export const Introduce: React.FC = () => {
             Tong
           </motion.span>
         </h1>
+
         <h3 className='text-3xl'>
           I&#39;m a{' '}
           <strong className='text-red-600 in'>full Stack developer</strong>
         </h3>
-        <motion.p
-          className='text-neutral-300'
-          initial={{ scaleX: 0, opacity: 0, transformOrigin: 'left center' }}
-          animate={{ scaleX: 1, opacity: 1 }}
-          transition={{
-            duration: 0.5,
-          }}
-        >
-          My name is Thanaphon (Tong) Keawjam. I am thai guy. I&#39;ve been
-          working in this line of work for 3 years (fulltime work). I try to
-          learn new things to improve my skills and incress my passion to
-          coding.
-        </motion.p>
+
+        <div>
+          <p className='sr-only'>{description}</p>
+          <motion.p
+            ref={ref}
+            aria-hidden
+            initial='hidden'
+            animate={control}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.1,
+                },
+              },
+            }}
+          >
+            {description.split(' ').map((word, wi) => (
+              <span key={`${word}-${wi}`} className='inline-block'>
+                <motion.span
+                  key={`${word}-${wi}`}
+                  className='inline-block'
+                  variants={descAnimation}
+                >
+                  {word}
+                </motion.span>
+                <span className='inline-block'>&nbsp;</span>
+              </span>
+            ))}
+          </motion.p>
+        </div>
+
         <motion.button
           className='bg-red-600 hover:bg-red-800 transition-colors duration-200 px-4 py-3 rounded-lg font-bold'
           initial={{ scale: 0 }}
