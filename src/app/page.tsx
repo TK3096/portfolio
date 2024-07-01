@@ -1,10 +1,12 @@
-import { Container } from '@/components/home/Container'
+import { DesktopMenu } from '@/components/home/DesktopMenu'
+import { MobileMenu } from '@/components/home/MobileMenu'
 
 const HomePage = () => {
   return (
-    <div className='h-full'>
-      <Container />
-    </div>
+    <main className='h-full'>
+      <MobileMenu />
+      <DesktopMenu />
+    </main>
   )
 }
 

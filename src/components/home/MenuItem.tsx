@@ -3,23 +3,30 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 
+import { cn } from '@/libs/utils'
+
+const variants = {
+  hover: { scale: 2, transition: { duration: 0.3, ease: 'easeInOut' } },
+}
+
 interface MenuItemProps {
-  children: React.ReactNode
-  onHover: (value: string) => void
-  onLeave: () => void
+  text: string
+  className?: string
 }
 
 export const MenuItem: React.FC<MenuItemProps> = (props: MenuItemProps) => {
-  const { children, onHover, onLeave } = props
+  const { text, className } = props
 
   return (
-    <motion.div
-      className='text-4xl cursor-pointer font-bold uppercase'
-      whileHover={{ scale: 2 }}
-      onMouseEnter={() => onHover('bg-emerald-500')}
-      onMouseLeave={onLeave}
+    <motion.p
+      variants={variants}
+      whileHover='hover'
+      className={cn(
+        'capitalize text-3xl text-white transition-opacity duration-2000 ease-in-out',
+        className,
+      )}
     >
-      {children}
-    </motion.div>
+      {text}
+    </motion.p>
   )
 }
